@@ -13,3 +13,15 @@ export async function getProducts(): Promise<Product[]> {
 
   return products
 }
+
+export async function getProductById(id: number): Promise<Product> {
+  const response = await fetch(`${API_URL}/products/${id}`)
+
+  if (!response.ok) {
+    throw new Error('Impossibile recuperare il prodotto')
+  }
+
+  const product: Product = await response.json()
+
+  return product
+}
