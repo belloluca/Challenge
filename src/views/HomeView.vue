@@ -1,16 +1,23 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { getProducts } from '@/services/productsApi'
-import type { Product } from '@/types/Product'
+import { onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { getProducts, getProductsByCategory } from '@/services/productsApi'
 import ProductCard from '@/components/ProductCard.vue'
+import type { Product } from '@/types/Product'
 
 const products = ref<Product[]>([])
 const isLoading = ref<boolean>(true)
 const errorMessage = ref<string>('')
+const route = useRoute()
 
 async function loadProducts(): Promise<void> {
+  isLoading.value = true
+  errorMessage.value = ''
+
+  const category = typeof route.query.category === 'string' ? route.query.category : ''
+
   try {
-    products.value = await getProducts()
+    products.value = category ? await getProductsByCategory(category) : await getProducts()
   } catch (error) {
     errorMessage.value =
       error instanceof Error ? error.message : 'Si è verificato un errore imprevisto'
@@ -18,6 +25,12 @@ async function loadProducts(): Promise<void> {
     isLoading.value = false
   }
 }
+watch(
+  () => route.query.category,
+  () => {
+    loadProducts()
+  },
+)
 
 onMounted(() => {
   loadProducts()
@@ -35,7 +48,9 @@ onMounted(() => {
     </header>
 
     <section class="home__products" aria-labelledby="products-title">
-      <h2 id="products-title" class="home__products-title">Tutti i prodotti</h2>
+      <h2 id="products-title" class="home__products-title">
+        {{ typeof route.query.category === 'string' ? route.query.category : 'Tutti i prodotti' }}
+      </h2>
 
       <p v-if="isLoading" class="home__message">Caricamento dei prodotti...</p>
 
