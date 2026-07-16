@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { getCategories } from '@/services/productsApi'
 
 const categories = ref<string[]>([])
 const isLoading = ref<boolean>(true)
 const errorMessage = ref<string>('')
+const route = useRoute()
 
 async function loadCategories(): Promise<void> {
   try {
@@ -39,15 +41,26 @@ onMounted(() => {
 
         <ul v-else class="app-header__categories">
           <li>
-            <RouterLink class="app-header__category-link" to="/"> Tutti </RouterLink>
+            <RouterLink
+              class="app-header__category-link"
+              :class="{
+                'app-header__category-link--active': typeof route.query.category !== 'string',
+              }"
+              to="/"
+            >
+              Tutti
+            </RouterLink>
           </li>
 
           <li v-for="category in categories" :key="category">
             <RouterLink
               class="app-header__category-link"
+              :class="{
+                'app-header__category-link--active': route.query.category === category,
+              }"
               :to="{
                 name: 'home',
-                query: { category: category },
+                query: { category },
               }"
             >
               {{ category }}
@@ -120,6 +133,16 @@ onMounted(() => {
     &:focus-visible {
       outline: 3px solid #2563eb;
       outline-offset: 2px;
+    }
+
+    &--active {
+      background-color: #2563eb;
+      color: #ffffff;
+    }
+
+    &__category-link--active:hover {
+      background-color: #1d4ed8;
+      color: #ffffff;
     }
   }
 
