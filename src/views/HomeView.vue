@@ -52,9 +52,9 @@ onMounted(() => {
         {{ typeof route.query.category === 'string' ? route.query.category : 'Tutti i prodotti' }}
       </h2>
 
-      <p v-if="isLoading" class="home__message">Caricamento dei prodotti...</p>
+      <p v-if="isLoading" class="home__message" aria-live="polite">Caricamento dei prodotti...</p>
 
-      <p v-else-if="errorMessage" class="home__message home__message--error">
+      <p v-else-if="errorMessage" class="home__message home__message--error" role="alert">
         {{ errorMessage }}
       </p>
 

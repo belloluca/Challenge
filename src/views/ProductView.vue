@@ -36,9 +36,15 @@ onMounted(() => {
 
 <template>
   <section class="product-view">
-    <p v-if="isLoading" class="product-view__message">Caricamento del prodotto...</p>
+    <p v-if="isLoading" class="product-view__message" aria-live="polite">
+      Caricamento del prodotto...
+    </p>
 
-    <p v-else-if="errorMessage" class="product-view__message product-view__message--error">
+    <p
+      v-else-if="errorMessage"
+      class="product-view__message product-view__message--error"
+      role="alert"
+    >
       {{ errorMessage }}
     </p>
 

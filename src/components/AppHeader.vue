@@ -35,7 +35,11 @@ onMounted(() => {
       <nav class="app-header__navigation" aria-label="Categorie dei prodotti">
         <span v-if="isLoading" class="app-header__message"> Categorie in caricamento... </span>
 
-        <span v-else-if="errorMessage" class="app-header__message app-header__message--error">
+        <span
+          v-else-if="errorMessage"
+          class="app-header__message app-header__message--error"
+          role="alert"
+        >
           {{ errorMessage }}
         </span>
 
