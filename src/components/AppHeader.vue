@@ -43,7 +43,13 @@ onMounted(() => {
           </li>
 
           <li v-for="category in categories" :key="category">
-            <RouterLink class="app-header__category-link" to="/">
+            <RouterLink
+              class="app-header__category-link"
+              :to="{
+                name: 'home',
+                query: { category: category },
+              }"
+            >
               {{ category }}
             </RouterLink>
           </li>
