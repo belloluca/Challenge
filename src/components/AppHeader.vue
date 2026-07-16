@@ -157,12 +157,29 @@ onMounted(() => {
 }
 
 @media (max-width: 700px) {
-  .app-header__container {
-    min-height: auto;
-    padding: 1rem 0;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+  .app-header {
+    &__container {
+      min-height: auto;
+      padding: 1rem 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    &__navigation {
+      width: 100%;
+    }
+
+    &__categories {
+      width: 100%;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+    }
+
+    &__category-link {
+      white-space: nowrap;
+    }
   }
 }
 </style>
