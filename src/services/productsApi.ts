@@ -21,7 +21,11 @@ export async function getProductById(id: number): Promise<Product> {
     throw new Error('Impossibile recuperare il prodotto')
   }
 
-  const product: Product = await response.json()
+  const product: Product | null = await response.json()
+
+  if (!product) {
+    throw new Error('Prodotto non trovato')
+  }
 
   return product
 }

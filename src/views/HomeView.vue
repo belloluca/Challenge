@@ -18,6 +18,10 @@ async function loadProducts(): Promise<void> {
 
   try {
     products.value = category ? await getProductsByCategory(category) : await getProducts()
+
+    if (category && products.value.length === 0) {
+      errorMessage.value = 'Categoria non valida o senza prodotti'
+    }
   } catch (error) {
     errorMessage.value =
       error instanceof Error ? error.message : 'Si è verificato un errore imprevisto'
@@ -52,9 +56,9 @@ onMounted(() => {
         {{ typeof route.query.category === 'string' ? route.query.category : 'Tutti i prodotti' }}
       </h2>
 
-      <p v-if="isLoading" class="home__message">Caricamento dei prodotti...</p>
+      <p v-if="isLoading" class="home__message" aria-live="polite">Caricamento dei prodotti...</p>
 
-      <p v-else-if="errorMessage" class="home__message home__message--error">
+      <p v-else-if="errorMessage" class="home__message home__message--error" role="alert">
         {{ errorMessage }}
       </p>
 
