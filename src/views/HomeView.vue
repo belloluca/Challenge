@@ -18,6 +18,10 @@ async function loadProducts(): Promise<void> {
 
   try {
     products.value = category ? await getProductsByCategory(category) : await getProducts()
+
+    if (category && products.value.length === 0) {
+      errorMessage.value = 'Categoria non valida o senza prodotti'
+    }
   } catch (error) {
     errorMessage.value =
       error instanceof Error ? error.message : 'Si è verificato un errore imprevisto'

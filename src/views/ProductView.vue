@@ -13,7 +13,7 @@ const errorMessage = ref<string>('')
 async function loadProduct(): Promise<void> {
   const productId = Number(route.params.id)
 
-  if (Number.isNaN(productId)) {
+  if (!Number.isInteger(productId) || productId <= 0) {
     errorMessage.value = 'Identificativo del prodotto non valido'
     isLoading.value = false
     return
